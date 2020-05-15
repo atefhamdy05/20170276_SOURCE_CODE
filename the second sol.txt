@@ -1,0 +1,134 @@
+#include <stdio.h>
+#include <stdlib.h>
+void binaryssearxh(int *mid,int *min,int *max)
+  {
+                if((*mid)==(*max))
+            {
+               (*mid)=((*min)+(*max)+1)/2;
+            }
+            else
+            {
+                (*max)=(*mid);
+                (*mid)=((*min)+(*max)+1)/2;
+            }
+
+}
+int max(int a,int b)
+{
+    if (a>b)
+        return a;
+    else
+        return b;
+}
+int binary_search (int arr1[],int arr2[],int size1,int size2,int k)
+{
+    int min1 ,max1,mid1,min2,max2,mid2 ,sum;
+    min1=0;
+    max1= size1-1;
+    mid1= size1-1;
+    min2=0 ;
+    max2= size2-1;
+    mid2=  size2-1;
+     sum = mid1 +mid2+2;
+    while(sum!=k)
+    {
+
+    if(sum>k)
+    {
+        if (arr1[mid1]>arr2[mid2])//left side
+        {
+
+          if(min1+1==max1)
+          {
+              mid1=min1;
+              max1--;
+          }
+          else
+          {
+              if(min1==max1)
+              {
+
+                  return arr2[k-1];
+              }
+              else
+              {
+                  binaryssearxh(&mid1,&min1,&max1);
+              }
+          }
+
+
+        }
+        else if(arr1[mid1]<=arr2[mid2])
+        {
+
+         if(min2+1==max2)
+          {
+              mid2=min2;
+              max2--;
+          }
+          else
+          {
+              if(min2==max2)
+              {
+
+                  return arr1[k-1];
+              }
+              else
+              {    ////normal
+                binaryssearxh(&mid2,&min2,&max2);
+
+              }
+          }
+
+        }
+
+    }
+    else  //sum<k
+    {
+
+         if (arr1[mid1]<arr2[mid2])//Right side
+        {
+                min1=mid1;
+               mid1=(min1+max1+1)/2;
+        }
+        else
+        {
+             min2=mid2;
+               mid2=(min2+max2+1)/2;
+        }
+
+    }
+     sum = mid1 +mid2+2;
+    }
+
+        return max(arr1[mid1],arr2[mid2]);
+}
+int main()
+{
+        int KthSmallest,k;
+
+    int list1[100], list2[100], size1, size2, loop;
+
+  printf("Please enter the  number of elements in the First list \n");
+  scanf("%d", &size1);
+
+  printf("Enter %d integers\n", size1);
+  for (loop = 0; loop < size1; loop++) {
+    scanf("%d", &list1[loop]);
+  }
+
+  printf("Please enter the  number of elements in the Second  list \n");
+  scanf("%d", &size2);
+
+  printf("Enter %d integers\n", size2);
+  for (loop = 0; loop < size2; loop++) {
+    scanf("%d", &list2[loop]);
+  }
+  printf("Please Enter The K you want to search about \n");
+     scanf("%d",&k);
+
+        KthSmallest = binary_search(list1,list2,size1,size2,k);
+            printf("%d",KthSmallest);
+
+  return 0;
+}
